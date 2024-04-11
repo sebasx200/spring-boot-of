@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Ingreso de Productos</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        padding-top: 50px; /* Espacio para la barra de navegación */
+      }
+      body {
+        background-image: url("/img/background2.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .table {
+        background-color: white;
+      }
+      .mt-3 {
+        margin-top: 1rem !important; /* Ajuste del margen superior */
+      }
+      
+    
+    .form-editing {
+      /* Estilos adicionales para el modo de edición */
+      background-color: #ef6c00;
+  }
+    </style>
+    
+  </head>
+  <body th:class="${editingMode} ? 'form-editing' : ''"> 
+
+    <div class="container">
+          <div class="card" style="width: 540px; margin: 0 auto;">
+            <div class="card-header">
+              <h4 class="text-center">Actualización de Producto</h4>
+              <div class="d-flex justify-content-center align-items-center">
+                <img src="\img\logoara2.png" alt="Producto" />
+            </div>            
+            </div>
+            <div class="card-body mt-3">
+              <!-- Agregar margen inferior -->
+              <form
+                th:object="${product}"
+                th:action="@{/save-product}"
+                method="post"
+              
+              >
+                <div class="form-group">
+                  <label for="productId">ID:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productId"
+                    th:field="*{id}"
+                    name="productId"
+                    readonly="readonly"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productName">Nombre:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productName"
+                    th:field="*{name}"
+                    name="productName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productPrice">Precio:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productPrice"
+                    th:field="*{price}"
+                    name="productPrice"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productSupplier">Proveedor:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productSupplier"
+                    th:field="*{supplier}"
+                    name="productSupplier"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-block" style="background: #FABB10;">
+                  Actualizar Producto
+                </button>
+
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+    </div>
+  </body>
+</html>

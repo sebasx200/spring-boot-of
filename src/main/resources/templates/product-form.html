@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Ingreso de Productos</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        padding-top: 50px; /* Espacio para la barra de navegación */
+      }
+      body {
+        background-image: url("./img/background2.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .table {
+        background-color: white;
+      }
+      .mt-3 {
+        margin-top: 1rem !important; /* Ajuste del margen superior */
+      }
+      
+    
+    .form-editing {
+      /* Estilos adicionales para el modo de edición */
+      background-color: #ef6c00;
+  }
+    </style>
+    
+  </head>
+  <body th:class="${editingMode} ? 'form-editing' : ''"> 
+
+    <div class="container">
+      <div class="row">
+        <!-- Columna para el formulario -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="text-center">Ingreso de Productos</h4>
+              <div class="d-flex justify-content-center align-items-center">
+                <img src="img\logoara.png" alt="Producto" />
+            </div>            
+            </div>
+            <div class="card-body mt-3">
+              <!-- Agregar margen inferior -->
+              <form
+                th:object="${product}"
+                th:action="@{/save-product}"
+                method="post"
+              
+              >
+                <div class="form-group">
+                  <label for="productId">ID:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productId"
+                    th:field="*{id}"
+                    name="productId"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productName">Nombre:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productName"
+                    th:field="*{name}"
+                    name="productName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productPrice">Precio:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productPrice"
+                    th:field="*{price}"
+                    name="productPrice"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productSupplier">Proveedor:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productSupplier"
+                    th:field="*{supplier}"
+                    name="productSupplier"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Añadir producto
+                </button>
+
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+        <!-- Columna para la tabla y el campo de búsqueda -->
+        <div class="col-md-6">
+          <div class="row">
+            
+            <!-- Tabla de productos -->
+            <div class="col-md-12 ">
+              <div class="card">
+                <div class="card-body">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Proveedor</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="product : ${products}">
+                        <td th:text="${product.id}"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.supplier}"></td>
+                        <td>
+                          <form th:action="@{/editar-producto/{id}(id=${product.id})}" method="get">
+                            <button type="submit" class="btn btn-info btn-sm btn-block">Editar</button>
+                        </form>
+                            <form th:action="@{/eliminar-producto/{id}(id=${product.id})}" method="get" id="deleteForm">
+                
+                                <button type="button" class="btn btn-danger btn-sm btn-block" onclick="confirmDelete('${product.id}')">
+                                    Eliminar
+                                </button>
+                            </form>
+                            
+                            <script>
+                                function confirmDelete(productId) {
+                                    if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+                                        document.getElementById("deleteForm").submit();
+                                    }
+                                }
+                            </script>
+                            
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

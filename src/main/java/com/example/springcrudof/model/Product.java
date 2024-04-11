@@ -1,4 +1,4 @@
-package com.example.springcrudof.domain;
+package com.example.springcrudof.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

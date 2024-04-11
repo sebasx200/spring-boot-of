@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.springcrudof.model.Product;
 import com.example.springcrudof.repository.ProductRepository;
-import com.example.springcrudof.domain.Product;
 
 @Service
 public class ProductServive {
